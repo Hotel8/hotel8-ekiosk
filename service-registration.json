@@ -1,0 +1,40 @@
+{
+  "vertical": "hotel8",
+  "services": [],
+  "apps": [
+    {
+      "slug": "ekiosk",
+      "web_dir": "build/web",
+      "listing": {
+        "app_name": "Hotel8:eKiosk",
+        "app_slug": "hotel8-ekiosk",
+        "description": "Self-service kiosk app — check-in, key dispensing, room upgrades, and folio payment. For lobby kiosk hardware.",
+        "backend_url": "",
+        "supports_dcr": true,
+        "visibility": "public",
+        "status": "published",
+        "oauth_defaults": {
+          "grant_types": [
+            "authorization_code",
+            "refresh_token"
+          ],
+          "response_types": [
+            "code"
+          ],
+          "token_endpoint_auth_method": "none",
+          "scopes": [
+            "openid",
+            "profile",
+            "email",
+            "hotel8:pms:reservations:read",
+            "hotel8:pms:reservations:write",
+            "hotel8:pms:rooms:read",
+            "upsell:offers:read",
+            "loyalty:profile:read"
+          ],
+          "consent_required": false
+        }
+      }
+    }
+  ]
+}
