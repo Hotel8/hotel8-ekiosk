@@ -45,8 +45,10 @@ class _BoardingPassPageState extends State<BoardingPassPage> {
   void initState() {
     super.initState();
     if (widget.reservationId.isNotEmpty) {
-      _future =
-          widget.client.getBoardingPass(widget.propertyId, widget.reservationId);
+      _future = widget.client.getBoardingPass(
+        widget.propertyId,
+        widget.reservationId,
+      );
     } else {
       _future = Future.value(null);
     }
@@ -64,20 +66,22 @@ class _BoardingPassPageState extends State<BoardingPassPage> {
     final confirmation = _confirmationController.text.trim();
     if (lastName.isEmpty || confirmation.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your last name and confirmation number.')),
+        const SnackBar(
+          content: Text('Please enter your last name and confirmation number.'),
+        ),
       );
       return;
     }
     setState(() {
       _future = widget.client
           .findReservation(
-        propertyId: widget.propertyId,
-        lastName: lastName,
-        confirmationNumber: confirmation,
-      )
+            propertyId: widget.propertyId,
+            lastName: lastName,
+            confirmationNumber: confirmation,
+          )
           .then(
-        (res) => widget.client.getBoardingPass(widget.propertyId, res.id),
-      );
+            (res) => widget.client.getBoardingPass(widget.propertyId, res.id),
+          );
     });
     await _future;
   }
@@ -132,9 +136,11 @@ class _BoardingPassPageState extends State<BoardingPassPage> {
               children: [
                 const Icon(Icons.error_outline, size: 48, color: Colors.red),
                 const SizedBox(height: 12),
-                Text(snap.error is BffException
-                    ? (snap.error as BffException).message
-                    : '${snap.error}'),
+                Text(
+                  snap.error is BffException
+                      ? (snap.error as BffException).message
+                      : '${snap.error}',
+                ),
               ],
             ),
           );
@@ -147,11 +153,16 @@ class _BoardingPassPageState extends State<BoardingPassPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.flight_takeoff, size: 72,
-                      color: Colors.grey.shade400),
+                  Icon(
+                    Icons.flight_takeoff,
+                    size: 72,
+                    color: Colors.grey.shade400,
+                  ),
                   const SizedBox(height: 16),
-                  const Text('No Flight Information',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+                  const Text(
+                    'No Flight Information',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  ),
                   const SizedBox(height: 8),
                   const Text(
                     'No boarding pass information is linked to your reservation.\n'
@@ -208,8 +219,10 @@ class _LookupForm extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  const Text('Find Your Reservation',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Find Your Reservation',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 16),
                   TextField(
                     controller: lastNameController,
@@ -239,7 +252,9 @@ class _LookupForm extends StatelessWidget {
                       onPressed: onLookup,
                       icon: const Icon(Icons.search),
                       label: const Text('Find Boarding Pass'),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     ),
                   ),
                 ],
@@ -288,14 +303,28 @@ class _PassDisplay extends StatelessWidget {
                   color: theme.colorScheme.primary,
                   child: Row(
                     children: [
-                      Icon(Icons.flight, color: theme.colorScheme.onPrimary, size: 32),
+                      Icon(
+                        Icons.flight,
+                        color: theme.colorScheme.onPrimary,
+                        size: 32,
+                      ),
                       const SizedBox(width: 12),
-                      Text(pass.airline,
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold, color: theme.colorScheme.onPrimary)),
+                      Text(
+                        pass.airline,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onPrimary,
+                        ),
+                      ),
                       const Spacer(),
-                      Text('Flight ${pass.flightNumber}',
-                          style: TextStyle(fontSize: 20, color: theme.colorScheme.onPrimary)),
+                      Text(
+                        'Flight ${pass.flightNumber}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: theme.colorScheme.onPrimary,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -309,8 +338,11 @@ class _PassDisplay extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _AirportCode(code: pass.departureAirport),
-                          Icon(Icons.flight_takeoff,
-                              color: theme.colorScheme.primary, size: 40),
+                          Icon(
+                            Icons.flight_takeoff,
+                            color: theme.colorScheme.primary,
+                            size: 40,
+                          ),
                           _AirportCode(code: pass.arrivalAirport),
                         ],
                       ),
@@ -334,14 +366,28 @@ class _PassDisplay extends StatelessWidget {
             child: FilledButton.icon(
               onPressed: printing ? null : onPrint,
               icon: printing
-                  ? const SizedBox(width: 20, height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                  : (printed ? const Icon(Icons.check) : const Icon(Icons.print)),
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : (printed
+                        ? const Icon(Icons.check)
+                        : const Icon(Icons.print)),
               label: Text(
-                printing ? 'Printing...' : printed ? 'Printed!' : 'Print Boarding Pass',
+                printing
+                    ? 'Printing...'
+                    : printed
+                    ? 'Printed!'
+                    : 'Print Boarding Pass',
                 style: const TextStyle(fontSize: 20),
               ),
-              style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+              style: FilledButton.styleFrom(
+                minimumSize: const Size.fromHeight(56),
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -355,9 +401,13 @@ class _PassDisplay extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.open_in_new),
-                label: const Text('Airline Online Check-In',
-                    style: TextStyle(fontSize: 20)),
-                style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                label: const Text(
+                  'Airline Online Check-In',
+                  style: TextStyle(fontSize: 20),
+                ),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(56),
+                ),
               ),
             ),
           const SizedBox(height: 24),
@@ -395,9 +445,14 @@ class _AirportCode extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(code,
-            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-        Text(_airportName(code), style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+        Text(
+          code,
+          style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          _airportName(code),
+          style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+        ),
       ],
     );
   }
@@ -430,8 +485,14 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: 16, color: Colors.grey.shade700)),
-          Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          ),
         ],
       ),
     );

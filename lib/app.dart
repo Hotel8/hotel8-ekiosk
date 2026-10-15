@@ -103,7 +103,7 @@ class _HkioskRootState extends State<HkioskRoot> {
       return Scaffold(
         body: Center(
           child: Text(
-            'Kiosk unavailable: \$_bootstrapError',
+            'Kiosk unavailable: $_bootstrapError',
             style: const TextStyle(color: Colors.red),
           ),
         ),
@@ -142,14 +142,19 @@ class _LockdownScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.lock_outline, size: 96, color: theme.colorScheme.outline),
+            Icon(
+              Icons.lock_outline,
+              size: 96,
+              color: theme.colorScheme.outline,
+            ),
             const SizedBox(height: 24),
             Text(propertyName, style: theme.textTheme.headlineSmall),
             const SizedBox(height: 8),
             const Text('Terminal temporarily unavailable.'),
             const SizedBox(height: 32),
             OutlinedButton.icon(
-              onPressed: () {}, // staff unlock rides the deployment platform's auth
+              onPressed:
+                  () {}, // staff unlock rides the deployment platform's auth
               icon: const Icon(Icons.admin_panel_settings_outlined),
               label: const Text('Staff unlock'),
             ),

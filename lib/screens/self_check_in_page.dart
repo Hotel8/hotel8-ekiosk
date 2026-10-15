@@ -83,7 +83,9 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
     final confirmation = _confirmationController.text.trim();
     if (lastName.isEmpty || confirmation.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter last name and confirmation number.')),
+        const SnackBar(
+          content: Text('Please enter last name and confirmation number.'),
+        ),
       );
       return;
     }
@@ -94,8 +96,7 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
         lastName: lastName,
         confirmationNumber: confirmation,
       );
-      final addOns =
-          await widget.client.getAvailableAddOns(widget.propertyId);
+      final addOns = await widget.client.getAvailableAddOns(widget.propertyId);
       if (mounted) {
         setState(() {
           _reservation = reservation;
@@ -124,8 +125,9 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
         }
         return a;
       }).toList();
-      final addOnsTotal =
-          _addOns.where((a) => a.selected).fold(0.0, (s, a) => s + a.price * a.nights);
+      final addOnsTotal = _addOns
+          .where((a) => a.selected)
+          .fold(0.0, (s, a) => s + a.price * a.nights);
       _totalDue = (_reservation?.totalAmount ?? 0) + addOnsTotal;
     });
   }
@@ -153,9 +155,9 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
     } on BffException catch (e) {
       if (mounted) {
         setState(() => _loading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Payment failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Payment failed: ${e.message}')));
       }
     }
   }
@@ -197,9 +199,11 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.mode == KioskMode.collectKey
-            ? 'Collect Your Key'
-            : 'Self Check-In'),
+        title: Text(
+          widget.mode == KioskMode.collectKey
+              ? 'Collect Your Key'
+              : 'Self Check-In',
+        ),
         leading: IconButton(
           icon: const Icon(Icons.home),
           onPressed: () => Navigator.pop(context),
@@ -222,10 +226,14 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
                         backgroundColor: isDone
                             ? Colors.green
                             : isActive
-                                ? Theme.of(context).colorScheme.primary
-                                : Colors.grey.shade300,
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.grey.shade300,
                         child: isDone
-                            ? const Icon(Icons.check, size: 20, color: Colors.white)
+                            ? const Icon(
+                                Icons.check,
+                                size: 20,
+                                color: Colors.white,
+                              )
                             : Text(
                                 '${i + 1}',
                                 style: TextStyle(
@@ -242,7 +250,9 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
                           child: Container(
                             height: 3,
                             margin: const EdgeInsets.symmetric(horizontal: 6),
-                            color: i < _step ? Colors.green : Colors.grey.shade300,
+                            color: i < _step
+                                ? Colors.green
+                                : Colors.grey.shade300,
                           ),
                         ),
                     ],
@@ -266,7 +276,9 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
                   if (_step > 0)
                     OutlinedButton(
                       onPressed: _prev,
-                      style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                       child: const Text('Back', style: TextStyle(fontSize: 18)),
                     ),
                   const Spacer(),
@@ -275,31 +287,52 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
                       onPressed: _loading ? null : _finish,
                       icon: const Icon(Icons.home),
                       label: const Text('Done', style: TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     )
                   else if (_step == 0)
                     FilledButton.icon(
                       onPressed: _loading ? null : _findReservation,
                       icon: _loading
                           ? const SizedBox(
-                              width: 20, height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
                           : const Icon(Icons.search),
-                      label: Text(_loading ? 'Searching...' : 'Find Reservation',
-                          style: const TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      label: Text(
+                        _loading ? 'Searching...' : 'Find Reservation',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     )
-                  else if (_step == _steps.length - 2 && widget.mode != KioskMode.collectKey)
+                  else if (_step == _steps.length - 2 &&
+                      widget.mode != KioskMode.collectKey)
                     FilledButton.icon(
                       onPressed: _loading ? null : _processPayment,
                       icon: _loading
                           ? const SizedBox(
-                              width: 20, height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
                           : const Icon(Icons.payment),
-                      label: Text(_loading ? 'Processing...' : 'Pay $_totalDueStr',
-                          style: const TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      label: Text(
+                        _loading ? 'Processing...' : 'Pay $_totalDueStr',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     )
                   else if (_step == _steps.length - 1 &&
                       widget.mode != KioskMode.collectKey)
@@ -307,19 +340,33 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
                       onPressed: _loading ? null : _checkInAndPrintKey,
                       icon: _loading
                           ? const SizedBox(
-                              width: 20, height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
                           : const Icon(Icons.print),
-                      label: Text(_loading ? 'Printing...' : 'Print Key',
-                          style: const TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      label: Text(
+                        _loading ? 'Printing...' : 'Print Key',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     )
                   else
                     FilledButton.icon(
                       onPressed: _next,
                       icon: const Icon(Icons.arrow_forward),
-                      label: const Text('Continue', style: TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      label: const Text(
+                        'Continue',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     ),
                 ],
               ),
@@ -389,8 +436,10 @@ class _StepIdentify extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Identify Your Reservation',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const Text(
+          'Identify Your Reservation',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         Text(
           'Enter your last name and confirmation number to retrieve your reservation.',
@@ -475,8 +524,10 @@ class _StepReservation extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Reservation Summary',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const Text(
+          'Reservation Summary',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         Card(
           elevation: 2,
@@ -494,22 +545,26 @@ class _StepReservation extends StatelessWidget {
                 if (r.roomNumber != null) _BigRow('Room', r.roomNumber!),
                 _BigRow('Guests', r.numberOfGuests.toString()),
                 const Divider(height: 24),
-                _BigRow('Total',
-                    '${r.currencyCode} ${r.totalAmount.toStringAsFixed(2)}',
-                    bold: true),
+                _BigRow(
+                  'Total',
+                  '${r.currencyCode} ${r.totalAmount.toStringAsFixed(2)}',
+                  bold: true,
+                ),
               ],
             ),
           ),
         ),
         if (!isCollectKey && addOns.isNotEmpty) ...[
           const SizedBox(height: 24),
-          const Text('Add-Ons',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const Text(
+            'Add-Ons',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           const SizedBox(height: 12),
-          ...addOns.map((addOn) => _AddOnTile(
-                addOn: addOn,
-                onToggle: () => onToggleAddOn(addOn),
-              )),
+          ...addOns.map(
+            (addOn) =>
+                _AddOnTile(addOn: addOn, onToggle: () => onToggleAddOn(addOn)),
+          ),
           const SizedBox(height: 16),
           Card(
             color: Colors.blue.shade50,
@@ -518,10 +573,17 @@ class _StepReservation extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Total Due',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                  Text('${r.currencyCode} ${totalDue.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Total Due',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '${r.currencyCode} ${totalDue.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -545,10 +607,17 @@ class _BigRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: 18, color: Colors.grey.shade700)),
-          Text(value,
-              style: TextStyle(
-                  fontSize: bold ? 22 : 18, fontWeight: bold ? FontWeight.bold : FontWeight.w500)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 18, color: Colors.grey.shade700),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: bold ? 22 : 18,
+              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
@@ -603,8 +672,10 @@ class _StepPayment extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Payment',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const Text(
+          'Payment',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         Card(
           elevation: 2,
@@ -614,11 +685,15 @@ class _StepPayment extends StatelessWidget {
               children: [
                 const Icon(Icons.payment, size: 64, color: Colors.green),
                 const SizedBox(height: 16),
-                const Text('Tap, Insert, or Swipe Your Card',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                const Text(
+                  'Tap, Insert, or Swipe Your Card',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(height: 8),
-                Text('Amount Due: ${reservation?.currencyCode ?? "USD"} ${totalDue.toStringAsFixed(2)}',
-                    style: const TextStyle(fontSize: 20)),
+                Text(
+                  'Amount Due: ${reservation?.currencyCode ?? "USD"} ${totalDue.toStringAsFixed(2)}',
+                  style: const TextStyle(fontSize: 20),
+                ),
                 const SizedBox(height: 24),
                 const Text(
                   'The payment terminal is active. Follow the prompts on the terminal to complete your payment.',
@@ -651,15 +726,18 @@ class _StepKey extends StatelessWidget {
         icon: Icons.check_circle,
         color: Colors.green,
         title: 'Keys Printed!',
-        message: 'Please take your key card(s). '
+        message:
+            'Please take your key card(s). '
             'Room $roomNumber — Enjoy your stay, ${reservation?.guestName ?? "Guest"}!',
       );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Print Your Room Key',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const Text(
+          'Print Your Room Key',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         Card(
           elevation: 2,
@@ -669,11 +747,19 @@ class _StepKey extends StatelessWidget {
               children: [
                 const Icon(Icons.key, size: 72, color: Colors.amber),
                 const SizedBox(height: 16),
-                const Text('Place Key Card on the Encoder',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+                const Text(
+                  'Place Key Card on the Encoder',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(height: 8),
-                Text('Room $roomNumber',
-                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.blue)),
+                Text(
+                  'Room $roomNumber',
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
                 const SizedBox(height: 16),
                 const Text(
                   'Place your blank key card on the encoder pad below. '
@@ -691,10 +777,7 @@ class _StepKey extends StatelessWidget {
 }
 
 class _StepPrintKey extends StatelessWidget {
-  const _StepPrintKey({
-    required this.reservation,
-    required this.keyPrinted,
-  });
+  const _StepPrintKey({required this.reservation, required this.keyPrinted});
   final SelfServiceReservation? reservation;
   final bool keyPrinted;
 
@@ -730,13 +813,17 @@ class _SuccessView extends StatelessWidget {
           children: [
             Icon(icon, size: 80, color: color),
             const SizedBox(height: 16),
-            Text(title,
-                style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 12),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 20, color: Colors.grey)),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 20, color: Colors.grey),
+            ),
           ],
         ),
       ),

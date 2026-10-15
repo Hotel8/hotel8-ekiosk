@@ -15,7 +15,11 @@ import '../bff_client.dart';
 import '../models.dart';
 
 class WalkInSearchPage extends StatefulWidget {
-  const WalkInSearchPage({super.key, required this.client, required this.propertyId});
+  const WalkInSearchPage({
+    super.key,
+    required this.client,
+    required this.propertyId,
+  });
 
   final BffClient client;
 
@@ -55,9 +59,9 @@ class _WalkInSearchPageState extends State<WalkInSearchPage> {
       if (mounted) setState(() => _results = rooms);
     } on BffException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Search failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Search failed: ${e.message}')));
       }
     } finally {
       if (mounted) setState(() => _searching = false);
@@ -94,9 +98,8 @@ class _WalkInSearchPageState extends State<WalkInSearchPage> {
 
   Future<void> _confirmSelection() async {
     if (_selected == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a room.')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Please select a room.')));
       return;
     }
     final room = _selected!;
@@ -116,9 +119,8 @@ class _WalkInSearchPageState extends State<WalkInSearchPage> {
       Navigator.pop(context, reservation);
     } on BffException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message)),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message)));
       }
     }
   }
@@ -191,11 +193,17 @@ class _WalkInSearchPageState extends State<WalkInSearchPage> {
                         onPressed: _searching ? null : _search,
                         icon: _searching
                             ? const SizedBox(
-                                width: 20, height: 20,
-                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
                               )
                             : const Icon(Icons.search),
-                        label: Text(_searching ? 'Searching...' : 'Search Rooms'),
+                        label: Text(
+                          _searching ? 'Searching...' : 'Search Rooms',
+                        ),
                         style: FilledButton.styleFrom(
                           minimumSize: const Size.fromHeight(56),
                         ),
@@ -211,20 +219,18 @@ class _WalkInSearchPageState extends State<WalkInSearchPage> {
             child: _results.isEmpty && !_searching
                 ? _EmptyResults()
                 : _searching
-                    ? const Center(child: CircularProgressIndicator())
-                    : _showFloorPlan
-                        ? _FloorPlanView(
-                            rooms: _results,
-                            selected: _selected,
-                            onSelected: (room) =>
-                                setState(() => _selected = room),
-                          )
-                        : _RoomListView(
-                            rooms: _results,
-                            selected: _selected,
-                            onSelected: (room) =>
-                                setState(() => _selected = room),
-                          ),
+                ? const Center(child: CircularProgressIndicator())
+                : _showFloorPlan
+                ? _FloorPlanView(
+                    rooms: _results,
+                    selected: _selected,
+                    onSelected: (room) => setState(() => _selected = room),
+                  )
+                : _RoomListView(
+                    rooms: _results,
+                    selected: _selected,
+                    onSelected: (room) => setState(() => _selected = room),
+                  ),
           ),
           // Toggle and confirm
           if (_results.isNotEmpty)
@@ -234,11 +240,12 @@ class _WalkInSearchPageState extends State<WalkInSearchPage> {
                 child: Row(
                   children: [
                     FilledButton.tonalIcon(
-                      onPressed: () => setState(
-                          () => _showFloorPlan = !_showFloorPlan),
+                      onPressed: () =>
+                          setState(() => _showFloorPlan = !_showFloorPlan),
                       icon: Icon(_showFloorPlan ? Icons.list : Icons.map),
                       label: Text(
-                          _showFloorPlan ? 'List View' : 'Floor Plan View'),
+                        _showFloorPlan ? 'List View' : 'Floor Plan View',
+                      ),
                     ),
                     const Spacer(),
                     FilledButton.icon(
@@ -313,7 +320,10 @@ class _CounterField extends StatelessWidget {
             onPressed: value > 1 ? () => onChanged(value - 1) : null,
             iconSize: 32,
           ),
-          Text('$value', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Text(
+            '$value',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           IconButton(
             icon: const Icon(Icons.add_circle_outline),
             onPressed: value < 9 ? () => onChanged(value + 1) : null,
@@ -334,8 +344,10 @@ class _EmptyResults extends StatelessWidget {
         children: [
           Icon(Icons.search, size: 72, color: Colors.grey.shade400),
           const SizedBox(height: 12),
-          Text('Search for Available Rooms',
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 18)),
+          Text(
+            'Search for Available Rooms',
+            style: TextStyle(color: Colors.grey.shade600, fontSize: 18),
+          ),
         ],
       ),
     );
@@ -364,7 +376,8 @@ class _RoomListView extends StatelessWidget {
         return Card(
           elevation: 2,
           color: isSelected
-              ? Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3)
+              ? Theme.of(context).colorScheme.primaryContainer
+                    .withValues(alpha: 0.3)
               : null,
           child: InkWell(
             onTap: room.available ? () => onSelected(room) : null,
@@ -377,7 +390,9 @@ class _RoomListView extends StatelessWidget {
                     room.available ? Icons.meeting_room : Icons.do_not_disturb,
                     size: 48,
                     color: room.available
-                        ? (isSelected ? Theme.of(context).colorScheme.primary : Colors.green)
+                        ? (isSelected
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.green)
                         : Colors.grey,
                   ),
                   const SizedBox(width: 20),
@@ -385,23 +400,35 @@ class _RoomListView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Room ${room.roomNumber}',
-                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-                        Text('${room.roomTypeName} • Floor ${room.floorNumber}',
-                            style: TextStyle(fontSize: 16, color: Colors.grey.shade700)),
+                        Text(
+                          'Room ${room.roomNumber}',
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${room.roomTypeName} • Floor ${room.floorNumber}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
                         if (room.features.isNotEmpty)
                           Padding(
                             padding: const EdgeInsets.only(top: 4),
                             child: Wrap(
                               spacing: 4,
                               children: room.features
-                                  .map((f) => Chip(
-                                        label: Text(f),
-                                        padding: EdgeInsets.zero,
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                        labelStyle: const TextStyle(fontSize: 12),
-                                      ))
+                                  .map(
+                                    (f) => Chip(
+                                      label: Text(f),
+                                      padding: EdgeInsets.zero,
+                                      materialTapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                      labelStyle: const TextStyle(fontSize: 12),
+                                    ),
+                                  )
                                   .toList(),
                             ),
                           ),
@@ -413,9 +440,15 @@ class _RoomListView extends StatelessWidget {
                     children: [
                       Text(
                         '${room.currencyCode} ${room.ratePerNight.toStringAsFixed(0)}',
-                        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      Text('/night', style: TextStyle(color: Colors.grey.shade600)),
+                      Text(
+                        '/night',
+                        style: TextStyle(color: Colors.grey.shade600),
+                      ),
                     ],
                   ),
                 ],
@@ -457,8 +490,13 @@ class _FloorPlanView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Floor $floor',
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(
+                  'Floor $floor',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
@@ -477,30 +515,36 @@ class _FloorPlanView extends StatelessWidget {
                             color: isSelected
                                 ? Theme.of(context).colorScheme.primary
                                 : isAvailable
-                                    ? Colors.green
-                                    : Colors.grey.shade300,
+                                ? Colors.green
+                                : Colors.grey.shade300,
                           ),
                           borderRadius: BorderRadius.circular(12),
                           color: isSelected
-                              ? Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3)
+                              ? Theme.of(context).colorScheme.primaryContainer
+                                    .withValues(alpha: 0.3)
                               : isAvailable
-                                  ? Colors.green.withValues(alpha: 0.05)
-                                  : Colors.grey.shade100,
+                              ? Colors.green.withValues(alpha: 0.05)
+                              : Colors.grey.shade100,
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(room.roomNumber,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: isAvailable
-                                        ? Colors.black87
-                                        : Colors.grey)),
+                            Text(
+                              room.roomNumber,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: isAvailable
+                                    ? Colors.black87
+                                    : Colors.grey,
+                              ),
+                            ),
                             Text(
                               '${room.currencyCode}${room.ratePerNight.toStringAsFixed(0)}',
                               style: TextStyle(
-                                  fontSize: 12, color: Colors.grey.shade700),
+                                fontSize: 12,
+                                color: Colors.grey.shade700,
+                              ),
                             ),
                           ],
                         ),

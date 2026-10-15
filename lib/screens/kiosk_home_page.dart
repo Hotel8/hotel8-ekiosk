@@ -52,20 +52,22 @@ class KioskHomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Property branding
-                  Icon(Icons.hotel, size: 80, color: Theme.of(context).colorScheme.primary),
+                  Icon(
+                    Icons.hotel,
+                    size: 80,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   const SizedBox(height: 12),
                   Text(
                     propertyName ?? 'Welcome',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: Theme.of(context).textTheme.headlineMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Select a service to begin',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Colors.grey.shade600,
-                        ),
+                    style: Theme.of(context).textTheme.titleLarge
+                        ?.copyWith(color: Colors.grey.shade600),
                   ),
                   const SizedBox(height: 48),
                   // Main buttons
@@ -146,9 +148,9 @@ class KioskHomePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (_) => WalkInSearchPage(
-                                client: client,
-                                propertyId: propertyId,
-                              ),
+                            client: client,
+                            propertyId: propertyId,
+                          ),
                         ),
                       ),
                     ),
@@ -181,7 +183,11 @@ class KioskHomePage extends StatelessWidget {
                         icon: const Icon(Icons.language),
                         label: const Text('Language: English'),
                       ),
-                      Icon(Icons.access_time, size: 16, color: Colors.grey.shade500),
+                      Icon(
+                        Icons.access_time,
+                        size: 16,
+                        color: Colors.grey.shade500,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         _currentTime(),
@@ -200,7 +206,11 @@ class KioskHomePage extends StatelessWidget {
 
   String _currentTime() {
     final now = DateTime.now();
-    String hour(int h) => h > 12 ? '${h - 12}' : h == 0 ? '12' : '$h';
+    String hour(int h) => h > 12
+        ? '${h - 12}'
+        : h == 0
+        ? '12'
+        : '$h';
     final h = hour(now.hour);
     final m = now.minute.toString().padLeft(2, '0');
     final ampm = now.hour >= 12 ? 'PM' : 'AM';
@@ -283,10 +293,7 @@ class _KioskHomeButton extends StatelessWidget {
                   child: Text(
                     subtitle,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.white70,
-                    ),
+                    style: const TextStyle(fontSize: 16, color: Colors.white70),
                   ),
                 ),
               ),

@@ -20,8 +20,8 @@ import 'models.dart';
 
 class BffClient {
   BffClient({String? baseUrl, http.Client? httpClient})
-      : _baseUrl = baseUrl ?? _resolveBaseUrl(),
-        _httpClient = httpClient ?? http.Client();
+    : _baseUrl = baseUrl ?? _resolveBaseUrl(),
+      _httpClient = httpClient ?? http.Client();
 
   final String _baseUrl;
   final http.Client _httpClient;
@@ -32,10 +32,7 @@ class BffClient {
   /// For local development fall back to the `HKIOSK_BFF_BASE_URL` env
   /// var or `http://localhost:8080`.
   static String _resolveBaseUrl() {
-    const env = String.fromEnvironment(
-      'HKIOSK_BFF_BASE_URL',
-      defaultValue: '',
-    );
+    const env = String.fromEnvironment('HKIOSK_BFF_BASE_URL', defaultValue: '');
     if (env.isNotEmpty) return env;
 
     if (kIsWeb) return '';
@@ -47,8 +44,10 @@ class BffClient {
   void setAuthToken(String? token) => _authToken = token;
 
   Future<Map<String, dynamic>> _getJson(String path) async {
-    final resp =
-        await _httpClient.get(Uri.parse(_path(path)), headers: _headers());
+    final resp = await _httpClient.get(
+      Uri.parse(_path(path)),
+      headers: _headers(),
+    );
     return _handle(resp);
   }
 
@@ -65,10 +64,10 @@ class BffClient {
   }
 
   Map<String, String> _headers() => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        if (_authToken != null) 'Authorization': 'Bearer $_authToken',
-      };
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    if (_authToken != null) 'Authorization': 'Bearer $_authToken',
+  };
 
   Future<Map<String, dynamic>> _handle(http.Response resp) async {
     final body = resp.body.isEmpty ? '{}' : resp.body;
@@ -141,7 +140,8 @@ class BffClient {
       '/proxy/hotel8-pms/v1/properties/$propertyId/availability',
       search.toJson(),
     );
-    final list = json['room_types'] as List<dynamic>? ??
+    final list =
+        json['room_types'] as List<dynamic>? ??
         json['rooms'] as List<dynamic>? ??
         json['items'] as List<dynamic>? ??
         const [];
@@ -159,12 +159,11 @@ class BffClient {
     final json = await _getJson(
       '/proxy/hotel8-pms/v1/properties/$propertyId/packages',
     );
-    final list = json['items'] as List<dynamic>? ??
+    final list =
+        json['items'] as List<dynamic>? ??
         json['packages'] as List<dynamic>? ??
         const [];
-    return list
-        .map((e) => AddOn.fromJson(e as Map<String, dynamic>))
-        .toList();
+    return list.map((e) => AddOn.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   // ═════════════════════════════════════════════════════════════════════════
@@ -182,15 +181,12 @@ class BffClient {
     required double amount,
     String currencyCode = 'USD',
   }) async {
-    final intent = await _postJson(
-      '/proxy/bill8-payments/v1/payment-intents',
-      {
-        'amount': amount.toStringAsFixed(2),
-        'currency': currencyCode,
-        'idempotency_key':
-            'hotel8-ekiosk:$propertyId:$reservationId:$_dateStr(DateTime.now())',
-      },
-    );
+    final intent = await _postJson('/proxy/bill8-payments/v1/payment-intents', {
+      'amount': amount.toStringAsFixed(2),
+      'currency': currencyCode,
+      'idempotency_key':
+          'hotel8-ekiosk:$propertyId:$reservationId:$_dateStr(DateTime.now())',
+    });
     final intentId = intent['id'] as String;
     final confirmed = await _postJson(
       '/proxy/bill8-payments/v1/payment-intents/$intentId/confirm',
@@ -210,7 +206,8 @@ class BffClient {
       'amount': amount.toStringAsFixed(2),
       'currency': currencyCode,
       if (paymentMethodId != null) 'payment_method_id': paymentMethodId,
-      'idempotency_key': 'hotel8-ekiosk:$reservationId:${DateTime.now().millisecondsSinceEpoch}',
+      'idempotency_key':
+          'hotel8-ekiosk:$reservationId:${DateTime.now().millisecondsSinceEpoch}',
     });
   }
 
@@ -226,16 +223,11 @@ class BffClient {
   ) async {
     final result = await _postJson(
       '/proxy/hotel8-pms/v1/properties/$propertyId/reservations/${request.reservationId}/check-in',
-      {
-        if (request.roomNumber != null) 'room_number': request.roomNumber,
-      },
+      {if (request.roomNumber != null) 'room_number': request.roomNumber},
     );
     await _postJson(
       '/proxy/hotel8-pms/v1/properties/$propertyId/digital-keys',
-      {
-        'reservation_id': request.reservationId,
-        'count': request.keyCount,
-      },
+      {'reservation_id': request.reservationId, 'count': request.keyCount},
     );
     return result;
   }
@@ -243,7 +235,10 @@ class BffClient {
   /// `GET /proxy/hotel8-pms/v1/properties/{propertyId}/folios?room_number=`
   ///
   /// Settlement view for the in-house stay in a room (kiosk check-out step).
-  Future<KioskFolio> getFolioByRoom(String propertyId, String roomNumber) async {
+  Future<KioskFolio> getFolioByRoom(
+    String propertyId,
+    String roomNumber,
+  ) async {
     final json = await _getJson(
       '/proxy/hotel8-pms/v1/properties/$propertyId/folios?room_number=${Uri.encodeComponent(roomNumber)}',
     );

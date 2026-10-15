@@ -15,7 +15,11 @@ import '../bff_client.dart';
 import '../models.dart';
 
 class SelfCheckOutPage extends StatefulWidget {
-  const SelfCheckOutPage({super.key, required this.client, required this.propertyId});
+  const SelfCheckOutPage({
+    super.key,
+    required this.client,
+    required this.propertyId,
+  });
 
   final BffClient client;
 
@@ -120,9 +124,9 @@ class _SelfCheckOutPageState extends State<SelfCheckOutPage> {
     } on BffException catch (e) {
       if (mounted) {
         setState(() => _loading = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Payment failed: ${e.message}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Payment failed: ${e.message}')));
       }
     }
   }
@@ -199,24 +203,33 @@ class _SelfCheckOutPageState extends State<SelfCheckOutPage> {
                         backgroundColor: isDone
                             ? Colors.green
                             : isActive
-                                ? Theme.of(context).colorScheme.primary
-                                : Colors.grey.shade300,
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.grey.shade300,
                         child: isDone
-                            ? const Icon(Icons.check, size: 20, color: Colors.white)
-                            : Text('${i + 1}',
+                            ? const Icon(
+                                Icons.check,
+                                size: 20,
+                                color: Colors.white,
+                              )
+                            : Text(
+                                '${i + 1}',
                                 style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: isActive
-                                        ? Theme.of(context).colorScheme.onPrimary
-                                        : Colors.grey.shade600)),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: isActive
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Colors.grey.shade600,
+                                ),
+                              ),
                       ),
                       if (i < _steps.length - 1)
                         Expanded(
                           child: Container(
                             height: 3,
                             margin: const EdgeInsets.symmetric(horizontal: 6),
-                            color: i < _step ? Colors.green : Colors.grey.shade300,
+                            color: i < _step
+                                ? Colors.green
+                                : Colors.grey.shade300,
                           ),
                         ),
                     ],
@@ -239,7 +252,9 @@ class _SelfCheckOutPageState extends State<SelfCheckOutPage> {
                   if (_step > 0)
                     OutlinedButton(
                       onPressed: _prev,
-                      style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                       child: const Text('Back', style: TextStyle(fontSize: 18)),
                     ),
                   const Spacer(),
@@ -248,46 +263,74 @@ class _SelfCheckOutPageState extends State<SelfCheckOutPage> {
                       onPressed: _loading ? null : _finish,
                       icon: const Icon(Icons.home),
                       label: const Text('Done', style: TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     )
                   else if (_step == 0)
                     FilledButton.icon(
                       onPressed: _loading ? null : _findFolio,
                       icon: _loading
                           ? const SizedBox(
-                              width: 20, height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
                           : const Icon(Icons.search),
-                      label: Text(_loading ? 'Searching...' : 'Find Folio',
-                          style: const TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      label: Text(
+                        _loading ? 'Searching...' : 'Find Folio',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     )
                   else if (_step == 1)
                     FilledButton.icon(
                       onPressed: _loading ? null : _processPayment,
                       icon: _loading
                           ? const SizedBox(
-                              width: 20, height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
                           : const Icon(Icons.payment),
                       label: Text(
-                          _folio != null && _folio!.balance > 0
-                              ? 'Pay ${_folio!.currencyCode} ${_folio!.balance.toStringAsFixed(2)}'
-                              : 'Continue',
-                          style: const TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                        _folio != null && _folio!.balance > 0
+                            ? 'Pay ${_folio!.currencyCode} ${_folio!.balance.toStringAsFixed(2)}'
+                            : 'Continue',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     )
                   else if (_step == 2)
                     FilledButton.icon(
                       onPressed: _loading ? null : _completeCheckout,
                       icon: _loading
                           ? const SizedBox(
-                              width: 20, height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
                           : const Icon(Icons.check_circle),
-                      label: Text(_loading ? 'Processing...' : 'Complete Check-Out',
-                          style: const TextStyle(fontSize: 20)),
-                      style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
+                      label: Text(
+                        _loading ? 'Processing...' : 'Complete Check-Out',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size.fromHeight(56),
+                      ),
                     ),
                 ],
               ),
@@ -344,8 +387,10 @@ class _StepIdentify extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Identify Your Room',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const Text(
+          'Identify Your Room',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         Text(
           'Enter your room number to retrieve your folio.',
@@ -415,11 +460,15 @@ class _StepFolio extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Folio — Room ${f.roomNumber}',
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        Text(
+          'Folio — Room ${f.roomNumber}',
+          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
-        Text('Guest: ${f.guestName}',
-            style: TextStyle(fontSize: 20, color: Colors.grey.shade700)),
+        Text(
+          'Guest: ${f.guestName}',
+          style: TextStyle(fontSize: 20, color: Colors.grey.shade700),
+        ),
         const SizedBox(height: 16),
         Card(
           elevation: 2,
@@ -428,50 +477,91 @@ class _StepFolio extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Charges', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Charges',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 if (f.charges.isEmpty)
                   const Text('No charges.')
                 else
-                  ...f.charges.map((item) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Row(
-                          children: [
-                            Text(fmt.format(item.date),
-                                style: TextStyle(fontSize: 16, color: Colors.grey.shade600)),
-                            const SizedBox(width: 12),
-                            Expanded(child: Text(item.description, style: const TextStyle(fontSize: 18))),
-                            Text('${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
-                                style: const TextStyle(fontSize: 18)),
-                          ],
-                        ),
-                      )),
+                  ...f.charges.map(
+                    (item) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          Text(
+                            fmt.format(item.date),
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              item.description,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Text(
+                            '${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 const Divider(height: 24),
-                const Text('Payments', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Payments',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 if (f.payments.isEmpty)
                   const Text('No payments.')
                 else
-                  ...f.payments.map((item) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Row(
-                          children: [
-                            Text(fmt.format(item.date),
-                                style: TextStyle(fontSize: 16, color: Colors.grey.shade600)),
-                            const SizedBox(width: 12),
-                            Expanded(child: Text(item.description, style: const TextStyle(fontSize: 18))),
-                            Text('${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
-                                style: const TextStyle(fontSize: 18, color: Colors.green)),
-                          ],
-                        ),
-                      )),
+                  ...f.payments.map(
+                    (item) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        children: [
+                          Text(
+                            fmt.format(item.date),
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              item.description,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          Text(
+                            '${item.currencyCode} ${item.amount.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 const Divider(height: 24),
-                _BigRow('Total Charges',
-                    '${f.currencyCode} ${f.totalCharges.toStringAsFixed(2)}'),
-                _BigRow('Balance Due',
-                    '${f.currencyCode} ${f.balance.toStringAsFixed(2)}',
-                    bold: true,
-                    color: f.balance > 0 ? Colors.red : Colors.green),
+                _BigRow(
+                  'Total Charges',
+                  '${f.currencyCode} ${f.totalCharges.toStringAsFixed(2)}',
+                ),
+                _BigRow(
+                  'Balance Due',
+                  '${f.currencyCode} ${f.balance.toStringAsFixed(2)}',
+                  bold: true,
+                  color: f.balance > 0 ? Colors.red : Colors.green,
+                ),
               ],
             ),
           ),
@@ -495,12 +585,18 @@ class _BigRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontSize: 18, color: Colors.grey.shade700)),
-          Text(value,
-              style: TextStyle(
-                  fontSize: bold ? 24 : 18,
-                  fontWeight: bold ? FontWeight.bold : FontWeight.w500,
-                  color: color)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 18, color: Colors.grey.shade700),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: bold ? 24 : 18,
+              fontWeight: bold ? FontWeight.bold : FontWeight.w500,
+              color: color,
+            ),
+          ),
         ],
       ),
     );
@@ -532,15 +628,18 @@ class _StepPaymentResult extends StatelessWidget {
         icon: Icons.check_circle,
         color: Colors.green,
         title: 'Payment Confirmed',
-        message: '${folio!.currencyCode} ${folio!.balance.toStringAsFixed(2)} '
+        message:
+            '${folio!.currencyCode} ${folio!.balance.toStringAsFixed(2)} '
             'has been charged successfully.',
       );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Payment',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const Text(
+          'Payment',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         Card(
           elevation: 2,
@@ -550,12 +649,16 @@ class _StepPaymentResult extends StatelessWidget {
               children: [
                 const Icon(Icons.payment, size: 72, color: Colors.green),
                 const SizedBox(height: 16),
-                const Text('Tap, Insert, or Swipe Your Card',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                const Text(
+                  'Tap, Insert, or Swipe Your Card',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(height: 8),
                 if (folio != null)
-                  Text('Amount Due: ${folio!.currencyCode} ${folio!.balance.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 20)),
+                  Text(
+                    'Amount Due: ${folio!.currencyCode} ${folio!.balance.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 20),
+                  ),
                 const SizedBox(height: 24),
                 const Text(
                   'The payment terminal is active. Follow the prompts to complete payment.',
@@ -597,15 +700,18 @@ class _StepReceipt extends StatelessWidget {
         icon: Icons.check_circle,
         color: Colors.green,
         title: 'Check-Out Complete!',
-        message: 'Thank you for staying with us, ${folio?.guestName ?? "Guest"}!\n'
+        message:
+            'Thank you for staying with us, ${folio?.guestName ?? "Guest"}!\n'
             'Please deposit your key cards in the box.',
       );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Receipt',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+        const Text(
+          'Receipt',
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         Card(
           elevation: 2,
@@ -614,13 +720,18 @@ class _StepReceipt extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('How would you like your receipt?',
-                    style: TextStyle(fontSize: 20)),
+                const Text(
+                  'How would you like your receipt?',
+                  style: TextStyle(fontSize: 20),
+                ),
                 const SizedBox(height: 16),
                 CheckboxListTile(
                   value: printReceipt,
                   onChanged: (v) => onTogglePrint(v ?? false),
-                  title: const Text('Printed Receipt', style: TextStyle(fontSize: 18)),
+                  title: const Text(
+                    'Printed Receipt',
+                    style: TextStyle(fontSize: 18),
+                  ),
                   subtitle: const Text('Print at the kiosk'),
                   secondary: const Icon(Icons.print, size: 32),
                   controlAffinity: ListTileControlAffinity.leading,
@@ -629,7 +740,10 @@ class _StepReceipt extends StatelessWidget {
                 CheckboxListTile(
                   value: emailReceipt,
                   onChanged: (v) => onToggleEmail(v ?? false),
-                  title: const Text('Email Receipt', style: TextStyle(fontSize: 18)),
+                  title: const Text(
+                    'Email Receipt',
+                    style: TextStyle(fontSize: 18),
+                  ),
                   subtitle: const Text('Send to your email'),
                   secondary: const Icon(Icons.email, size: 32),
                   controlAffinity: ListTileControlAffinity.leading,
@@ -670,8 +784,10 @@ class _StepReceipt extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Center(
-                    child: Text('Sign here',
-                        style: TextStyle(color: Colors.grey, fontSize: 24)),
+                    child: Text(
+                      'Sign here',
+                      style: TextStyle(color: Colors.grey, fontSize: 24),
+                    ),
                   ),
                 ),
               ],
@@ -705,13 +821,17 @@ class _ResultView extends StatelessWidget {
           children: [
             Icon(icon, size: 80, color: color),
             const SizedBox(height: 16),
-            Text(title,
-                style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 12),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 18, color: Colors.grey)),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
+            ),
           ],
         ),
       ),
