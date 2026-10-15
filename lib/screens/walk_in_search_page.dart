@@ -219,18 +219,20 @@ class _WalkInSearchPageState extends State<WalkInSearchPage> {
             child: _results.isEmpty && !_searching
                 ? _EmptyResults()
                 : _searching
-                ? const Center(child: CircularProgressIndicator())
-                : _showFloorPlan
-                ? _FloorPlanView(
-                    rooms: _results,
-                    selected: _selected,
-                    onSelected: (room) => setState(() => _selected = room),
-                  )
-                : _RoomListView(
-                    rooms: _results,
-                    selected: _selected,
-                    onSelected: (room) => setState(() => _selected = room),
-                  ),
+                    ? const Center(child: CircularProgressIndicator())
+                    : _showFloorPlan
+                        ? _FloorPlanView(
+                            rooms: _results,
+                            selected: _selected,
+                            onSelected: (room) =>
+                                setState(() => _selected = room),
+                          )
+                        : _RoomListView(
+                            rooms: _results,
+                            selected: _selected,
+                            onSelected: (room) =>
+                                setState(() => _selected = room),
+                          ),
           ),
           // Toggle and confirm
           if (_results.isNotEmpty)
@@ -376,8 +378,10 @@ class _RoomListView extends StatelessWidget {
         return Card(
           elevation: 2,
           color: isSelected
-              ? Theme.of(context).colorScheme.primaryContainer
-                    .withValues(alpha: 0.3)
+              ? Theme.of(context)
+                  .colorScheme
+                  .primaryContainer
+                  .withValues(alpha: 0.3)
               : null,
           child: InkWell(
             onTap: room.available ? () => onSelected(room) : null,
@@ -391,8 +395,8 @@ class _RoomListView extends StatelessWidget {
                     size: 48,
                     color: room.available
                         ? (isSelected
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.green)
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.green)
                         : Colors.grey,
                   ),
                   const SizedBox(width: 20),
@@ -515,16 +519,18 @@ class _FloorPlanView extends StatelessWidget {
                             color: isSelected
                                 ? Theme.of(context).colorScheme.primary
                                 : isAvailable
-                                ? Colors.green
-                                : Colors.grey.shade300,
+                                    ? Colors.green
+                                    : Colors.grey.shade300,
                           ),
                           borderRadius: BorderRadius.circular(12),
                           color: isSelected
-                              ? Theme.of(context).colorScheme.primaryContainer
-                                    .withValues(alpha: 0.3)
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer
+                                  .withValues(alpha: 0.3)
                               : isAvailable
-                              ? Colors.green.withValues(alpha: 0.05)
-                              : Colors.grey.shade100,
+                                  ? Colors.green.withValues(alpha: 0.05)
+                                  : Colors.grey.shade100,
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -534,9 +540,8 @@ class _FloorPlanView extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: isAvailable
-                                    ? Colors.black87
-                                    : Colors.grey,
+                                color:
+                                    isAvailable ? Colors.black87 : Colors.grey,
                               ),
                             ),
                             Text(

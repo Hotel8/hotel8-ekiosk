@@ -226,8 +226,8 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
                         backgroundColor: isDone
                             ? Colors.green
                             : isActive
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.grey.shade300,
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey.shade300,
                         child: isDone
                             ? const Icon(
                                 Icons.check,
@@ -250,9 +250,8 @@ class _SelfCheckInPageState extends State<SelfCheckInPage> {
                           child: Container(
                             height: 3,
                             margin: const EdgeInsets.symmetric(horizontal: 6),
-                            color: i < _step
-                                ? Colors.green
-                                : Colors.grey.shade300,
+                            color:
+                                i < _step ? Colors.green : Colors.grey.shade300,
                           ),
                         ),
                     ],
@@ -726,8 +725,7 @@ class _StepKey extends StatelessWidget {
         icon: Icons.check_circle,
         color: Colors.green,
         title: 'Keys Printed!',
-        message:
-            'Please take your key card(s). '
+        message: 'Please take your key card(s). '
             'Room $roomNumber — Enjoy your stay, ${reservation?.guestName ?? "Guest"}!',
       );
     }

@@ -375,14 +375,14 @@ class _PassDisplay extends StatelessWidget {
                       ),
                     )
                   : (printed
-                        ? const Icon(Icons.check)
-                        : const Icon(Icons.print)),
+                      ? const Icon(Icons.check)
+                      : const Icon(Icons.print)),
               label: Text(
                 printing
                     ? 'Printing...'
                     : printed
-                    ? 'Printed!'
-                    : 'Print Boarding Pass',
+                        ? 'Printed!'
+                        : 'Print Boarding Pass',
                 style: const TextStyle(fontSize: 20),
               ),
               style: FilledButton.styleFrom(

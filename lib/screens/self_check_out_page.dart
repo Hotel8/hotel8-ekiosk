@@ -203,8 +203,8 @@ class _SelfCheckOutPageState extends State<SelfCheckOutPage> {
                         backgroundColor: isDone
                             ? Colors.green
                             : isActive
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.grey.shade300,
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey.shade300,
                         child: isDone
                             ? const Icon(
                                 Icons.check,
@@ -227,9 +227,8 @@ class _SelfCheckOutPageState extends State<SelfCheckOutPage> {
                           child: Container(
                             height: 3,
                             margin: const EdgeInsets.symmetric(horizontal: 6),
-                            color: i < _step
-                                ? Colors.green
-                                : Colors.grey.shade300,
+                            color:
+                                i < _step ? Colors.green : Colors.grey.shade300,
                           ),
                         ),
                     ],
@@ -628,8 +627,7 @@ class _StepPaymentResult extends StatelessWidget {
         icon: Icons.check_circle,
         color: Colors.green,
         title: 'Payment Confirmed',
-        message:
-            '${folio!.currencyCode} ${folio!.balance.toStringAsFixed(2)} '
+        message: '${folio!.currencyCode} ${folio!.balance.toStringAsFixed(2)} '
             'has been charged successfully.',
       );
     }

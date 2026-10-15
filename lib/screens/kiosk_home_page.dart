@@ -60,13 +60,17 @@ class KioskHomePage extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     propertyName ?? 'Welcome',
-                    style: Theme.of(context).textTheme.headlineMedium
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Select a service to begin',
-                    style: Theme.of(context).textTheme.titleLarge
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
                         ?.copyWith(color: Colors.grey.shade600),
                   ),
                   const SizedBox(height: 48),
@@ -209,8 +213,8 @@ class KioskHomePage extends StatelessWidget {
     String hour(int h) => h > 12
         ? '${h - 12}'
         : h == 0
-        ? '12'
-        : '$h';
+            ? '12'
+            : '$h';
     final h = hour(now.hour);
     final m = now.minute.toString().padLeft(2, '0');
     final ampm = now.hour >= 12 ? 'PM' : 'AM';

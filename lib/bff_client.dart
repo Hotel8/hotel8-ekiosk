@@ -20,8 +20,8 @@ import 'models.dart';
 
 class BffClient {
   BffClient({String? baseUrl, http.Client? httpClient})
-    : _baseUrl = baseUrl ?? _resolveBaseUrl(),
-      _httpClient = httpClient ?? http.Client();
+      : _baseUrl = baseUrl ?? _resolveBaseUrl(),
+        _httpClient = httpClient ?? http.Client();
 
   final String _baseUrl;
   final http.Client _httpClient;
@@ -64,10 +64,10 @@ class BffClient {
   }
 
   Map<String, String> _headers() => {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    if (_authToken != null) 'Authorization': 'Bearer $_authToken',
-  };
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        if (_authToken != null) 'Authorization': 'Bearer $_authToken',
+      };
 
   Future<Map<String, dynamic>> _handle(http.Response resp) async {
     final body = resp.body.isEmpty ? '{}' : resp.body;
@@ -140,8 +140,7 @@ class BffClient {
       '/proxy/hotel8-pms/v1/properties/$propertyId/availability',
       search.toJson(),
     );
-    final list =
-        json['room_types'] as List<dynamic>? ??
+    final list = json['room_types'] as List<dynamic>? ??
         json['rooms'] as List<dynamic>? ??
         json['items'] as List<dynamic>? ??
         const [];
@@ -159,8 +158,7 @@ class BffClient {
     final json = await _getJson(
       '/proxy/hotel8-pms/v1/properties/$propertyId/packages',
     );
-    final list =
-        json['items'] as List<dynamic>? ??
+    final list = json['items'] as List<dynamic>? ??
         json['packages'] as List<dynamic>? ??
         const [];
     return list.map((e) => AddOn.fromJson(e as Map<String, dynamic>)).toList();
@@ -255,9 +253,8 @@ class BffClient {
     return _postJson(
       '/proxy/hotel8-pms/v1/properties/$propertyId/reservations/$reservationId/check-out',
       {
-        'payment_method': request.paymentMethodToken != null
-            ? 'CREDIT_CARD'
-            : 'CASH',
+        'payment_method':
+            request.paymentMethodToken != null ? 'CREDIT_CARD' : 'CASH',
       },
     );
   }
