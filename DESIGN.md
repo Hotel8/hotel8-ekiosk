@@ -172,7 +172,7 @@ erDiagram
     SELF_SERVICE_RESERVATION ||--|| KIOSK_CHECK_OUT : "checked out as"
     KIOSK_CHECK_OUT ||--|| KIOSK_FOLIO : "settles"
     KIOSK_FOLIO ||--o{ KIOSK_FOLIO_ITEM : "lists"
-    KIOSK_SESSION ||--o|| BOARDING_PASS : "completes with"
+    KIOSK_SESSION |o--o| BOARDING_PASS : "completes with"
     WALK_IN_SEARCH ||--o{ WALK_IN_ROOM : "finds"
 ```
 
