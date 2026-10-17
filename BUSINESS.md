@@ -1,4 +1,4 @@
-# BUSINESS.md: Hotel8:eKiosk — Business Requirements & Functionality
+# Hotel8:eKiosk — Business Requirements & Functionality
 
 > Audience: product owners, business analysts, and anyone evaluating what
 > Hotel8:eKiosk **does for the business**. For architecture read `README.md`;
