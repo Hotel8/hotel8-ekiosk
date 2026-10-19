@@ -2,7 +2,7 @@
 
 ## 1. Summary
 
-Hotel8:eKiosk is the self-service lobby kiosk app — a Flutter application for
+Hotel8:eKiosk is the self-service lobby kiosk app - a Flutter application for
 dedicated touchscreen terminals that let guests check in, check out, buy
 add-ons, and pick up keys without front-desk interaction. It rides the same
 PMS front-office/cashiering proxy surfaces as eGuest plus the Payments proxy
@@ -16,7 +16,7 @@ the routine transactions (identify reservation → review → pay → cut keys /
 settle folio → receipt) so the front desk handles only exceptions. Running on
 Sentin8 platform rails means the kiosk is property-branded, env-scoped, and
 audited like every other surface, and its key dispensing reuses the PMS key
-domain the same way eGuest's digital keys do — one key model, two form factors.
+domain the same way eGuest's digital keys do - one key model, two form factors.
 
 ## 3. Architecture & High-Level Design
 
@@ -42,38 +42,38 @@ hardware steps (card, print, encode) stay per-session.
 
 ## 4. Key Traits and Data Structures
 
-* `BffClient` — typed wrappers for kiosk flows: reservation lookup by
+* `BffClient` - typed wrappers for kiosk flows: reservation lookup by
   last-name/confirmation, availability (walk-in), packages, payments
   (authorization + capture), front-office check-in, folio read, check-out,
   email receipt, boarding pass.
-* `KioskMode` + `KioskSession` — mode selection and the per-transaction
+* `KioskMode` + `KioskSession` - mode selection and the per-transaction
   session state that sequences identify → options → payment → key/receipt.
-* `SelfServiceReservation` / `KioskCheckIn` / `KioskCheckOut` — the check-in
+* `SelfServiceReservation` / `KioskCheckIn` / `KioskCheckOut` - the check-in
   and check-out aggregates (steps completed, room, amount, add-ons).
-* `AddOn` — the kiosk add-on catalog items presented during check-in with
+* `AddOn` - the kiosk add-on catalog items presented during check-in with
   pricing.
-* `WalkInSearch` / `WalkInRoom` — availability-driven walk-in funnel.
-* `KioskFolio` / `KioskFolioItem` — check-out folio review projection.
-* `BoardingPass` — the key-issuance/completion artifact (room + printable
+* `WalkInSearch` / `WalkInRoom` - availability-driven walk-in funnel.
+* `KioskFolio` / `KioskFolioItem` - check-out folio review projection.
+* `BoardingPass` - the key-issuance/completion artifact (room + printable
   summary); the "boarding pass" metaphor for the kiosk slip.
 
 ## 5. Rationale, Trade-offs, and Alternatives
 
-* **Guest identifies by reservation facts, not login** — kiosk users are
+* **Guest identifies by reservation facts, not login** - kiosk users are
   transient; name + confirmation number (or QR) resolves the stay.
   Rejected: accounts/sign-in at a lobby kiosk (friction with no custody
   benefit; session dies after each transaction by design).
-* **Mode-selection shell with wizard pages** — each mode is a short wizard;
+* **Mode-selection shell with wizard pages** - each mode is a short wizard;
   `IndexedStack`-free navigation (push/pop per step) keeps state local and
-  abortable. Rejected: persistent session across guests — violates the
+  abortable. Rejected: persistent session across guests - violates the
   one-guest-per-session security posture.
-* **Kiosk-folio projection separate from eGuest's** — the kiosk shows a
+* **Kiosk-folio projection separate from eGuest's** - the kiosk shows a
   settlement view (amount due → payment), not the full folio browser;
   separate type keeps the check-out payment flow minimal. Rejected: sharing
   the eGuest folio model (carries UX fields irrelevant to settlement).
-* **BFF-only egress** — uniform with all hotel8 apps; the kiosk client is a
+* **BFF-only egress** - uniform with all hotel8 apps; the kiosk client is a
   limited-scope consumer of checkout/check-in/pay endpoints only.
-* **Payment via Payments proxy only** — card data stays inside the PCI
+* **Payment via Payments proxy only** - card data stays inside the PCI
   terminal + BFF path; the kiosk app never sees card material.
 
 ## 6. Internal Implementation & Invariants (Private Design)

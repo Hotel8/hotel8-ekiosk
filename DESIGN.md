@@ -1,4 +1,4 @@
-# Hotel8:eKiosk — Detailed Design Document
+# Hotel8:eKiosk - Detailed Design Document
 
 ## 1. Scope & Context
 
@@ -91,17 +91,17 @@ graph TD
     C -->|limited scope /proxy/*| BFF[Sentin8:BFF]
 ```
 
-- `main.dart` / `app.dart` — entry + `HkioskApp` shell; owns the single
+- `main.dart` / `app.dart` - entry + `HkioskApp` shell; owns the single
   `BffClient` and the current `KioskSession`.
-- `screens/*.dart` — the mode-selection home and four wizard screens; each
+- `screens/*.dart` - the mode-selection home and four wizard screens; each
   wizard completes or aborts back to home (session reset).
-- `models.dart` — session, reservation, add-on, folio, boarding-pass
+- `models.dart` - session, reservation, add-on, folio, boarding-pass
   contracts.
-- `bff_client.dart` — typed kiosk endpoints (incl. `getKioskConfig` and
-  `createWalkInBooking` — the terminal-config read and walk-in express
+- `bff_client.dart` - typed kiosk endpoints (incl. `getKioskConfig` and
+  `createWalkInBooking` - the terminal-config read and walk-in express
   booking).
 
-### Request lifecycle — self check-in
+### Request lifecycle - self check-in
 
 ```mermaid
 sequenceDiagram
@@ -130,7 +130,7 @@ sequenceDiagram
     SCI-->>G: key encoding step → BoardingPassPage
 ```
 
-### Request lifecycle — self check-out
+### Request lifecycle - self check-out
 
 ```mermaid
 sequenceDiagram
@@ -197,7 +197,7 @@ Notes: `KioskMode` selects the wizard; `KioskCheckIn`/`KioskCheckOut` carry
 the step outcomes (room, amount, add-on codes) the boarding pass renders.
 `KioskFolioItem` types mirror the folio charge categories (room, tax, F&B,
 mini bar, other). The mode menu and add-on list come from the property's
-`kiosk-config` row (`pms DESIGN.md` §3 "Staff & corporate surfaces") — the
+`kiosk-config` row (`pms DESIGN.md` §3 "Staff & corporate surfaces") - the
 terminal never invents modes; `lockdown=true` freezes the terminal at the
 attract loop with a staff-unlock notice (deployment owns the enclosure, the
 app owns the freeze).
@@ -218,7 +218,7 @@ self-service kiosk terminal. Paths as implemented in `bff_client.dart`:
 | Folio / check-out | `GET /proxy/hotel8-pms/v1/properties/{p}/folios?room_number=`, `POST .../reservations/{id}/check-out` | Hotel8:PMS |
 | Receipt email | `POST /proxy/post/v1/send` | Sentin8:Post |
 | Boarding pass | `GET /proxy/hotel8-pms/v1/properties/{p}/reservations/{id}/boarding-pass` | Hotel8:PMS |
-| Terminal config | `GET /proxy/hotel8-pms/v1/properties/{p}/kiosk-config` | mode menu source of truth (`enabled_modes`, add-ons, `max_keys_per_stay`, `lockdown`) — the bootstrap read gates the journeys; hotel8:PMS kiosk-config row |
+| Terminal config | `GET /proxy/hotel8-pms/v1/properties/{p}/kiosk-config` | mode menu source of truth (`enabled_modes`, add-ons, `max_keys_per_stay`, `lockdown`) - the bootstrap read gates the journeys; hotel8:PMS kiosk-config row |
 
 ### Event flow
 
@@ -254,7 +254,7 @@ sequenceDiagram
 - **Audit:** PMS journals check-in/out, payments and key operations; kiosk
   identity (device) is part of the audit context downstream.
 - **Rate limiting / bot protection:** the terminal is on-property; edge rate
-  limits still apply to the identification endpoints to resist enumeration —
+  limits still apply to the identification endpoints to resist enumeration -
   the wizard requires multiple identifiers for lookup.
 - **TLS posture:** kiosk terminal traffic rides Sentin8:TLS origins.
 - **Upgrade drain:** stateless single-terminal build; sessions abort on
@@ -266,7 +266,7 @@ sequenceDiagram
 flowchart TD
     A[wizard step] --> B{call}
     B -->|2xx| C[next step]
-    B -->|4xx/5xx| D[BffException — guest-visible message]
+    B -->|4xx/5xx| D[BffException - guest-visible message]
     D --> E{recoverable?}
     E -- payment declined --> F[retry card / other method]
     E -- reservation not found --> G[back to identify step]
@@ -312,7 +312,7 @@ graph LR
    the client cannot force issuance.
 4. Every path is `/proxy/*`; non-2xx ⇒ `BffException`.
 5. Lookups require multiple identifiers (name + confirmation or name + room)
-  — no single-field enumeration.
+  - no single-field enumeration.
 
 **Insecure defaults rejected:** guest accounts at the kiosk; persistent
 across-guest session state; client-side payment confirmation (render-only);
@@ -328,22 +328,22 @@ graph TD
     WT --> E2E[Hotel8 e2e-ts suite15 kiosk flows via BFF\ncheck-in/out and boarding pass]
 ```
 
-- **Unit** — mappers and session step transitions.
-- **Widget** — home modes and wizard mounting.
-- **E2E** — the `e2e-ts` kiosk specs drive check-in/out through the browser +
+- **Unit** - mappers and session step transitions.
+- **Widget** - home modes and wizard mounting.
+- **E2E** - the `e2e-ts` kiosk specs drive check-in/out through the browser +
   BFF; hardware steps are out of scope for web E2E; deliberately NOT tested
   here: PMS check-in domain rules, payment capture internals (service-owned).
 
 ## 10. Open Questions
 
 - Deployment target for hardware channels (payment terminal, encoder,
-  printer) — which platform build ships first, and does the web build remain
+  printer) - which platform build ships first, and does the web build remain
   the only target for E2E? (The channel contract mirrors ePOS
-  `h8pos_hardware` — `lib/hardware.dart`.)
-- Lockdown enclosure ownership (kiosk OS / physical case) — the app-side
+  `h8pos_hardware` - `lib/hardware.dart`.)
+- Lockdown enclosure ownership (kiosk OS / physical case) - the app-side
   freeze (`lockdown=true` → attract-loop freeze with staff-unlock notice) is
   implemented; the enclosure side is the deployment platform's concern.
-- Paid walk-in settlement terms (deposit vs full charge at booking) — the
+- Paid walk-in settlement terms (deposit vs full charge at booking) - the
   walk-in booking + check-in flow is implemented; settlement policy defaults
   to card guarantee and a full folio at check-out.
 

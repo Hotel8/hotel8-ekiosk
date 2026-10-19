@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 name: ekiosk
-description: Sentin8 Hotel8:eKiosk — self-service kiosk for hotel check-in/check-out.
+description: Sentin8 Hotel8:eKiosk - self-service kiosk for hotel check-in/check-out.
 publish_to: "none"
 version: 0.1.0
 

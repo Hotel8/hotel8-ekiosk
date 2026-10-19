@@ -1,4 +1,4 @@
-# Hotel8:eKiosk — Business Requirements & Functionality
+# Hotel8:eKiosk - Business Requirements & Functionality
 
 > Audience: product owners, business analysts, and anyone evaluating what
 > Hotel8:eKiosk **does for the business**. For architecture read `README.md`;
@@ -7,7 +7,7 @@
 ## 1. Business Purpose
 
 - Remove routine check-in/out transactions from the front desk by absorbing
-  them into self-service lobby terminals — reduce queue length and free
+  them into self-service lobby terminals - reduce queue length and free
   staff for exceptions.
 - Monetize the check-in moment with add-on offers (breakfast, late
   check-out, parking, spa, upgrades) chosen interactively before payment.
@@ -26,13 +26,13 @@
 | Walk-in search + booking from availability | ✅ select a room → express booking (CONFIRMED walk-in reservation) → self check-in wizard |
 | Boarding-pass/key-collection flow | ✅ |
 | Email receipt | ✅ (Post proxy) |
-| Payment terminal integration (chip & PIN, NFC) | ✅ flows built; hardware rides the terminal channel contract — deployment build pending |
-| Key encoder integration (Assa Abloy / Dormakaba) | ✅ flows built; vendor handoff via the hardware channel — deployment build pending |
-| Email receipts | ✅ (Sentin8:Post) — thermal printing rides the hardware channel on embedding builds |
+| Payment terminal integration (chip & PIN, NFC) | ✅ flows built; hardware rides the terminal channel contract - deployment build pending |
+| Key encoder integration (Assa Abloy / Dormakaba) | ✅ flows built; vendor handoff via the hardware channel - deployment build pending |
+| Email receipts | ✅ (Sentin8:Post) - thermal printing rides the hardware channel on embedding builds |
 | Kiosk lockdown freeze | ✅ `lockdown=true` (property kiosk-config) freezes the terminal at the attract loop with a staff-unlock notice; enclosure/OS hardening stays a deployment concern |
 | `/admin` kiosk configuration | ❌ service-side admin surface |
-| Mobile guest experience | ❌ delegated — Hotel8:eGuest |
-| Complex/group check-ins | ❌ delegated — front desk (Hotel8:ePMS) |
+| Mobile guest experience | ❌ delegated - Hotel8:eGuest |
+| Complex/group check-ins | ❌ delegated - front desk (Hotel8:ePMS) |
 
 ## 3. Business Capabilities
 
@@ -42,7 +42,7 @@
 |---|---|
 | Identification | A reservation is resolved only with multiple identifiers (name + confirmation number, or name + arrival date, or QR); single-field lookups are refused. |
 | Summary review | Guest verifies dates, room type, rate, total due, and applies extra guest names before paying. |
-| Add-on purchase | Add-ons come from the PMS catalog; each has a price that joins the running total before payment — nothing is added silently. |
+| Add-on purchase | Add-ons come from the PMS catalog; each has a price that joins the running total before payment - nothing is added silently. |
 | Payment | Payment is pre-authorized/captured through the Payments proxy on the terminal; the kiosk never handles card data. |
 | Key encoding | Keys are encoded only after server-confirmed check-in; the number of keys follows the reservation's guest count. |
 
@@ -59,8 +59,8 @@
 | Capability | Business rule |
 |---|---|
 | Key pickup | Guests who checked in online (eGuest) identify with name + confirmation (or QR) and collect keys in under 60 seconds, verified against the PMS reservation. |
-| Walk-in | Availability search shows bookable rooms; express booking creates the walk-in reservation (source `WALKIN`) and the wizard completes check-in — the terminal stays availability-gated and never oversells. |
-| Terminal config | The property's kiosk-config row governs the terminal: enabled modes, add-on catalog codes, max keys per stay, and the lockdown flag — the terminal never offers more than the hotel configured. |
+| Walk-in | Availability search shows bookable rooms; express booking creates the walk-in reservation (source `WALKIN`) and the wizard completes check-in - the terminal stays availability-gated and never oversells. |
+| Terminal config | The property's kiosk-config row governs the terminal: enabled modes, add-on catalog codes, max keys per stay, and the lockdown flag - the terminal never offers more than the hotel configured. |
 
 ## 4. Business Events (Outbound)
 
@@ -81,7 +81,7 @@ events. See `services/pms/DESIGN.md` §4.
 ## 5. Business Rules & Invariants
 
 1. A kiosk session serves exactly one guest transaction; it resets on
-   completion, abort, or timeout — no data survives between guests.
+   completion, abort, or timeout - no data survives between guests.
 2. Payment success and check-in/check-out are server-confirmed outcomes; the
    kiosk never confirms them locally.
 3. Keys are issued only after a server-confirmed check-in/identity flow.
@@ -103,13 +103,13 @@ events. See `services/pms/DESIGN.md` §4.
 
 ## 7. KPIs / Success Criteria
 
-- **Self-service share** — percentage of check-ins/outings completed at the
+- **Self-service share** - percentage of check-ins/outings completed at the
   kiosk vs desk.
-- **Key collection time** — under 60 seconds for the Collect-Your-Key flow.
+- **Key collection time** - under 60 seconds for the Collect-Your-Key flow.
 - **Add-on attach rate** and add-on revenue per check-in.
-- **Exception rate** — wizard aborts per day trending down; hardware error
+- **Exception rate** - wizard aborts per day trending down; hardware error
   events resolved within staff SLA.
-- **Payment integrity** — terminal captures match PMS folio postings with
+- **Payment integrity** - terminal captures match PMS folio postings with
   zero manual correction.
 
 ## 8. Dependencies & Reliance on Other Services
@@ -126,15 +126,15 @@ events. See `services/pms/DESIGN.md` §4.
 
 ## 9. Acceptance Criteria
 
-1. A guest completes self check-in — identify, review, choose add-ons, pay,
-   collect key — in a single unstaffed session.
+1. A guest completes self check-in - identify, review, choose add-ons, pay,
+   collect key - in a single unstaffed session.
 2. A guest self-checks out with a settled folio and receives a receipt.
 3. An outstanding-balance check-out cannot pass the folio step until paid.
 4. A pre-checked-in guest collects keys in under 60 seconds using their QR
    code.
 5. A wizard abort or timeout leaves no guest data on the terminal.
 6. Every money movement reflects Payments-capture and PMS-folio confirmations
-   — no local-only confirmations at any step.
+   - no local-only confirmations at any step.
 
 ## 10. Open Business Questions
 
