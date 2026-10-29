@@ -726,7 +726,7 @@ class _StepKey extends StatelessWidget {
         color: Colors.green,
         title: 'Keys Printed!',
         message: 'Please take your key card(s). '
-            'Room $roomNumber — Enjoy your stay, ${reservation?.guestName ?? "Guest"}!',
+            'Room $roomNumber - Enjoy your stay, ${reservation?.guestName ?? "Guest"}!',
       );
     }
     return Column(

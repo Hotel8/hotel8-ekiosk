@@ -20,19 +20,19 @@
 
 | Capability | Provided by eKiosk |
 |---|---|
-| Mode selection (Check In / Check Out / Collect Key) | ✅ |
-| Self check-in wizard: identify → summary → add-ons → pay → keys | ✅ |
-| Self check-out wizard: identify → folio → pay → receipt | ✅ |
-| Walk-in search + booking from availability | ✅ select a room → express booking (CONFIRMED walk-in reservation) → self check-in wizard |
-| Boarding-pass/key-collection flow | ✅ |
-| Email receipt | ✅ (Post proxy) |
-| Payment terminal integration (chip & PIN, NFC) | ✅ flows built; hardware rides the terminal channel contract - deployment build pending |
-| Key encoder integration (Assa Abloy / Dormakaba) | ✅ flows built; vendor handoff via the hardware channel - deployment build pending |
-| Email receipts | ✅ (Sentin8:Post) - thermal printing rides the hardware channel on embedding builds |
-| Kiosk lockdown freeze | ✅ `lockdown=true` (property kiosk-config) freezes the terminal at the attract loop with a staff-unlock notice; enclosure/OS hardening stays a deployment concern |
-| `/admin` kiosk configuration | ❌ service-side admin surface |
-| Mobile guest experience | ❌ delegated - Hotel8:eGuest |
-| Complex/group check-ins | ❌ delegated - front desk (Hotel8:ePMS) |
+| Mode selection (Check In / Check Out / Collect Key) ||
+| Self check-in wizard: identify → summary → add-ons → pay → keys ||
+| Self check-out wizard: identify → folio → pay → receipt ||
+| Walk-in search + booking from availability |select a room → express booking (CONFIRMED walk-in reservation) → self check-in wizard |
+| Boarding-pass/key-collection flow ||
+| Email receipt |(Post proxy) |
+| Payment terminal integration (chip & PIN, NFC) |flows built; hardware rides the terminal channel contract - deployment build pending |
+| Key encoder integration (Assa Abloy / Dormakaba) |flows built; vendor handoff via the hardware channel - deployment build pending |
+| Email receipts |(Sentin8:Post) - thermal printing rides the hardware channel on embedding builds |
+| Kiosk lockdown freeze |`lockdown=true` (property kiosk-config) freezes the terminal at the attract loop with a staff-unlock notice; enclosure/OS hardening stays a deployment concern |
+| `/admin` kiosk configuration |service-side admin surface |
+| Mobile guest experience |delegated - Hotel8:eGuest |
+| Complex/group check-ins |delegated - front desk (Hotel8:ePMS) |
 
 ## 3. Business Capabilities
 

@@ -9,7 +9,7 @@
 /// `ekiosk/DESIGN.md` §4) which in turn
 /// delegate to PMS / Payments / Upsell / Post. All requests go through the
 /// BFF server-side token guardian. The kiosk uses a limited-scope
-/// OAuth client — no guest login.
+/// OAuth client - no guest login.
 
 import 'dart:convert';
 
@@ -92,7 +92,7 @@ class BffClient {
   /// `GET /proxy/hotel8-pms/v1/properties/{propertyId}/reservations?last_name=&confirmation=`
   ///
   /// Kiosk identification: last name + confirmation number (multi-field,
-  /// per `ekiosk/DESIGN.md` §8 — no single-identifier enumeration).
+  /// per `ekiosk/DESIGN.md` §8 - no single-identifier enumeration).
   Future<SelfServiceReservation> findReservation({
     required String propertyId,
     required String lastName,
@@ -193,7 +193,7 @@ class BffClient {
     return {'intent': intent, 'confirmation': confirmed};
   }
 
-  /// `POST /proxy/bill8-payments/v1/charges` — capture.
+  /// `POST /proxy/bill8-payments/v1/charges` - capture.
   Future<Map<String, dynamic>> processPayment({
     required String reservationId,
     required double amount,
@@ -263,7 +263,7 @@ class BffClient {
   // Boarding pass / Receipt
   // ═════════════════════════════════════════════════════════════════════════
 
-  /// `POST /proxy/post/v1/send` — email receipt via Sentin8:Post.
+  /// `POST /proxy/post/v1/send` - email receipt via Sentin8:Post.
   Future<void> emailReceipt({
     required String to,
     required String folioId,
@@ -283,10 +283,10 @@ class BffClient {
   ///
   /// The check-in completion artifact (room, dates, guest, key count).
   // ═════════════════════════════════════════════════════════════════════
-  // Terminal config (pms kiosk-config row — mode menu source of truth)
+  // Terminal config (pms kiosk-config row - mode menu source of truth)
   // ═════════════════════════════════════════════════════════════════════
 
-  /// `GET .../kiosk-config` — the property's terminal configuration
+  /// `GET .../kiosk-config` - the property's terminal configuration
   /// (`enabled_modes`, `addon_package_codes`, `max_keys_per_stay`, `lockdown`).
   Future<KioskConfig> getKioskConfig(String propertyId) async {
     final json = await _getJson(
@@ -299,7 +299,7 @@ class BffClient {
   // Walk-in express booking (pms walk-in surface)
   // ═════════════════════════════════════════════════════════════════════
 
-  /// `POST .../walk-in` — create a `CONFIRMED` reservation from the selected
+  /// `POST .../walk-in` - create a `CONFIRMED` reservation from the selected
   /// room type; the wizard then check-ins it via the normal kioskCheckIn.
   Future<SelfServiceReservation> createWalkInBooking({
     required String propertyId,

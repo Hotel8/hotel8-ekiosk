@@ -35,7 +35,7 @@ class KioskHomePage extends StatelessWidget {
   /// Optional display name override for branding.
   final String? propertyName;
 
-  /// Terminal config from the property's `kiosk-config` row — the mode-menu
+  /// Terminal config from the property's `kiosk-config` row - the mode-menu
   /// source of truth (ekiosk/DESIGN.md §3). Disabled modes do not render.
   final KioskConfig config;
 
@@ -160,7 +160,7 @@ class KioskHomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 48),
-                  // Footer — a Wrap so the items flow instead of
+                  // Footer - a Wrap so the items flow instead of
                   // overflowing on narrow layouts.
                   Wrap(
                     alignment: WrapAlignment.center,
@@ -240,7 +240,7 @@ class _KioskHomeButton extends StatelessWidget {
   final VoidCallback? onTap;
   final double height;
 
-  /// Config-gated mode: disabled modes render greyed-out (never hidden — the
+  /// Config-gated mode: disabled modes render greyed-out (never hidden - the
   /// guest sees the service exists but is unavailable on this terminal).
   final bool enabled;
 

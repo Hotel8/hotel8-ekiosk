@@ -23,7 +23,7 @@ class HkioskApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hkiosk — Self Check-in',
+      title: 'Hkiosk - Self Check-in',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -42,9 +42,9 @@ class HkioskApp extends StatelessWidget {
   }
 }
 
-/// Root widget — bootstraps the BFF client and shows the full-screen
+/// Root widget - bootstraps the BFF client and shows the full-screen
 /// kiosk home. No bottom navigation (kiosk mode). The kiosk uses a
-/// limited-scope OAuth client — no guest login.
+/// limited-scope OAuth client - no guest login.
 class HkioskRoot extends StatefulWidget {
   const HkioskRoot({super.key});
 
@@ -66,14 +66,14 @@ class _HkioskRootState extends State<HkioskRoot> {
 
   Future<void> _bootstrap() async {
     try {
-      // Same-origin bootstrap — the TLS proxy injects the X-Sentin8-*
+      // Same-origin bootstrap - the TLS proxy injects the X-Sentin8-*
       // headers the runtime context resolves from (ekiosk/DESIGN.md §2).
       final ctx = await fetchRuntimeContext(appBaseUrl: '');
       // The kiosk serves the property whose environment hosts the terminal.
       // The check-out/check-in flows take the property id from this context.
       final client = BffClient(baseUrl: ctx.bffBaseUrl);
       // Terminal config read (ekiosk/DESIGN.md §3): the property's kiosk-config
-      // row is the mode-menu source of truth — `lockdown=true` freezes the
+      // row is the mode-menu source of truth - `lockdown=true` freezes the
       // terminal at the attract loop; disabled modes are not offered.
       KioskConfig config = const KioskConfig();
       try {
@@ -116,7 +116,7 @@ class _HkioskRootState extends State<HkioskRoot> {
     }
     if (_config.lockdown) {
       // Lockdown freeze (ekiosk/DESIGN.md §3): the terminal sticks at the
-      // attract loop with a staff-unlock notice — no guest journeys render.
+      // attract loop with a staff-unlock notice - no guest journeys render.
       return _LockdownScreen(propertyName: ctx.instanceName);
     }
     return KioskHomePage(
@@ -128,7 +128,7 @@ class _HkioskRootState extends State<HkioskRoot> {
   }
 }
 
-/// Lockdown freeze screen — the attract loop with a staff-unlock notice.
+/// Lockdown freeze screen - the attract loop with a staff-unlock notice.
 class _LockdownScreen extends StatelessWidget {
   const _LockdownScreen({required this.propertyName});
 

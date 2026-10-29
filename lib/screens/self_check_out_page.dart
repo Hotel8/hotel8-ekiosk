@@ -98,7 +98,7 @@ class _SelfCheckOutPageState extends State<SelfCheckOutPage> {
 
   Future<void> _processPayment() async {
     if (_folio == null || _folio!.balance <= 0) {
-      // No payment needed — proceed directly
+      // No payment needed - proceed directly
       _next();
       return;
     }
@@ -460,7 +460,7 @@ class _StepFolio extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Folio — Room ${f.roomNumber}',
+          'Folio - Room ${f.roomNumber}',
           style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),

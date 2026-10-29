@@ -6,7 +6,7 @@
 /// Hkiosk data models.
 ///
 /// Simple Dart classes mirroring the PMS / Payments / Upsell contract shapes
-/// (see `ekiosk/DESIGN.md` §3–4) and the
+/// (see `ekiosk/DESIGN.md` §3 - 4) and the
 /// BFF proxy surface for Hkiosk. Hkiosk is the self-service lobby kiosk
 /// counterpart to the Guest App's mobile check-in/out.
 
@@ -439,7 +439,7 @@ class BoardingPass {
 String _dateStr(DateTime d) =>
     '${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}';
 
-/// The property's kiosk terminal configuration (pms `kiosk-config` row) —
+/// The property's kiosk terminal configuration (pms `kiosk-config` row)  - 
 /// the mode-menu source of truth (ekiosk/DESIGN.md §3). `lockdown=true`
 /// freezes the terminal at the attract loop.
 class KioskConfig {
