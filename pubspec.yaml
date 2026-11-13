@@ -6,7 +6,7 @@
 name: ekiosk
 description: Sentin8 Hotel8:eKiosk - self-service kiosk for hotel check-in/check-out.
 publish_to: "none"
-version: 0.1.0
+version: 1.0.0
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
